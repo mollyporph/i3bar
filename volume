@@ -1,0 +1,16 @@
+#!/usr/bin/env python3
+from subprocess import check_output
+status:str = check_output(['amixer','get','Master'], universal_newlines=True)
+
+if not status:
+    print("error")
+else:
+    rows = status.split('\n')
+    volumeRow = rows[5]
+    columns = volumeRow.split()
+    volume = columns[4][1:-1]
+    onOff = columns[5][1:-1]
+    mute_text="<span color='#f83b3b' font='FontAwesome'>\uf026</span> {}".format(volume)
+    volume_text="<span color='#aede8c' font='FontAwesome'>\uf028</span> {}".format(volume)
+    fulltext = volume_text if onOff == "on" else mute_text
+    print(fulltext)
